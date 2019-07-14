@@ -24,6 +24,9 @@ public class Rita extends Role {
         // 30%概率攻击回血
         if (Math.random() <= CURE_RATE) {
             this.setHp(this.getHp() + damage.getPhysicDamage());
+            if (this.getHp() >= HP) {
+                this.setHp(100L);
+            }
             System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害" +
                     "，并恢复了" + damage.getPhysicDamage() + "点生命");
         } else {

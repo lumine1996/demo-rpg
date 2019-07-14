@@ -166,7 +166,12 @@ public class Role {
      * 攻击后行为
      */
     public void afterAttack(Role target, Damage damage) {
-        System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
+        if (damage.getMagicDamage() > 0) {
+            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
+        }
+        if (damage.getPhysicDamage() > 0) {
+            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
+        }
     }
 
     /**

@@ -39,13 +39,16 @@ public class Fuka extends Role{
         if (hasLocked) {
             damage.setMagicDamage(0L);
         }
+
         damage = super.underAttack(damage);
         if (this.getHp() <= 0 && !hasLocked) {
             lockRound = this.getRound();
             hasLocked = true;
             System.out.println("符华锁血1点，并免疫元素伤害");
         }
+
         if (lockRound == this.getRound()) {
+            damage.setMagicDamage(0L);
             this.setHp(1L);
         }
         return damage;

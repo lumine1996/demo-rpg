@@ -25,16 +25,14 @@ public class Theresa extends Role {
 
     @Override
     public void skillAttack(Role target) {
-        Long damageCount = 0L;
+        System.out.println(this.getName() + "发动必杀技");
         for (int i = 0; i < SKILL_TIMES; i++) {
             //造成无视防御的伤害，目标防御力不参与计算
             long magicDamage = rand.nextInt(16) + 1L;
             Damage damage = new Damage(0L, magicDamage);
             Damage finalDamage = target.underAttack(damage);
-            damageCount += finalDamage.getMagicDamage();
+            afterAttack(target, finalDamage);
         }
-
-        System.out.println(this.getName() + "发动必杀技，对" + target.getName() + "累计造成" + damageCount + "点伤害");
     }
 
     @Override
