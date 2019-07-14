@@ -22,10 +22,9 @@ public class Sheele extends Role{
     }
 
     @Override
-    public void beforeAttack(Role role) {
-        this.setRound(this.getRound() + 1);
+    public void myTurn(Role target) {
         cure(CURE_POINT);
-        attack(role);
+        super.myTurn(target);
     }
 
     @Override

@@ -13,6 +13,11 @@ public class Damage {
         this.magicDamage = magicDamage;
     }
 
+    public Damage() {
+        this.physicalDamage = 0L;
+        this.magicDamage = 0L;
+    }
+
     public Long getPhysicalDamage() {
         return physicalDamage;
     }

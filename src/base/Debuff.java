@@ -7,6 +7,16 @@ public class Debuff {
     private int round;
     private Damage damage;
 
+    public Debuff() {
+        this.round = 0;
+        this.damage = new Damage();
+    }
+
+    public Debuff(int round, Damage damage) {
+        this.round = round;
+        this.damage = damage;
+    }
+
     public int getRound() {
         return round;
     }

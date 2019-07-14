@@ -90,12 +90,14 @@ public class Role {
 
 
     /**
-     * 攻击前行为
+     * 我的回合
      */
-    public void beforeAttack(Role target) {
+    public void myTurn(Role target) {
         if (debuff.getRound() > 0) {
             underAttack(debuff.getDamage());
             debuff.setRound(debuff.getRound() - 1);
+            System.out.println(name + "由于Debuff，受到" + debuff.getDamage().getMagicDamage() + "点元素伤害" +
+                    "，Debuff还剩" + debuff.getRound() + "回合");
         }
 
         round ++;
@@ -255,5 +257,21 @@ public class Role {
 
     public void setRound(int round) {
         this.round = round;
+    }
+
+    public int getSilentRound() {
+        return silentRound;
+    }
+
+    public void setSilentRound(int silentRound) {
+        this.silentRound = silentRound;
+    }
+
+    public Debuff getDebuff() {
+        return debuff;
+    }
+
+    public void setDebuff(Debuff debuff) {
+        this.debuff = debuff;
     }
 }

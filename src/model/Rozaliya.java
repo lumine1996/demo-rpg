@@ -24,7 +24,7 @@ public class Rozaliya extends Role {
     }
 
     @Override
-    public void beforeAttack(Role role) {
+    public void myTurn(Role role) {
         //第一回合正常攻击系数，之后30%概率1.5或0.5
         if (this.getRound() == 0) {
             this.damageRate = 1.0;
@@ -40,7 +40,7 @@ public class Rozaliya extends Role {
             }
         }
         //调用父类攻击前行为
-        super.beforeAttack(role);
+        super.myTurn(role);
     }
 
     @Override
