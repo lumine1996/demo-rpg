@@ -4,26 +4,26 @@ package base;
  * @author 675056544@qq.com 2019-07-12 18:10:29
  */
 public class Damage {
-    private Long physicalDamage;
+    private Long physicDamage;
 
     private Long magicDamage;
 
-    public Damage (Long physicalDamage, Long magicDamage) {
-        this.physicalDamage = physicalDamage;
+    public Damage (Long physicDamage, Long magicDamage) {
+        this.physicDamage = physicDamage;
         this.magicDamage = magicDamage;
     }
 
     public Damage() {
-        this.physicalDamage = 0L;
+        this.physicDamage = 0L;
         this.magicDamage = 0L;
     }
 
-    public Long getPhysicalDamage() {
-        return physicalDamage;
+    public Long getPhysicDamage() {
+        return physicDamage;
     }
 
-    public void setPhysicalDamage(Long physicalDamage) {
-        this.physicalDamage = physicalDamage;
+    public void setPhysicDamage(Long physicDamage) {
+        this.physicDamage = physicDamage;
     }
 
     public Long getMagicDamage() {

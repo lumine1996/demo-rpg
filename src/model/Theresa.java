@@ -1,6 +1,7 @@
 package model;
 
 import base.Damage;
+import base.Debuff;
 import base.Role;
 
 import java.util.Random;
@@ -29,10 +30,47 @@ public class Theresa extends Role {
             //造成无视防御的伤害，目标防御力不参与计算
             long magicDamage = rand.nextInt(16) + 1L;
             Damage damage = new Damage(0L, magicDamage);
-            target.underAttack(damage);
-            damageCount += magicDamage;
+            Damage finalDamage = target.underAttack(damage);
+            damageCount += finalDamage.getMagicDamage();
         }
 
         System.out.println(this.getName() + "发动必杀技，对" + target.getName() + "累计造成" + damageCount + "点伤害");
+    }
+
+    @Override
+    public Damage underAttack(Damage damage) {
+        damage.setMagicDamage((damage.getMagicDamage() + 1) / 2);
+        if (damage.getPhysicDamage() > 0) {
+            this.setHp(this.getHp() - damage.getPhysicDamage());
+        } else {
+            damage.setPhysicDamage(0L);
+        }
+        if (damage.getMagicDamage() > 0) {
+            this.setHp(this.getHp() - damage.getMagicDamage());
+        } else {
+            damage.setMagicDamage(0L);
+        }
+        return damage;
+    }
+
+    @Override
+    public void underDebuff() {
+        Debuff debuff = this.getDebuff();
+        debuff.setRound(debuff.getRound() - 1);
+        String name = NAME;
+        Damage debuffDamage = new Damage();
+        debuffDamage.setMagicDamage(debuff.getDamage().getMagicDamage());
+        debuffDamage.setPhysicDamage(debuff.getDamage().getPhysicDamage());
+        // System.out.println(debuffDamage + ", " +debuff.getDamage());
+        underAttack(debuffDamage);
+        if (debuff.getDamage().getMagicDamage() > 0) {
+            System.out.println(name + "由于Debuff，受到" + (debuff.getDamage().getMagicDamage()+ 1) / 2 + "点元素伤害" +
+                    "，Debuff还剩" + debuff.getRound() + "回合");
+        }
+        if (debuff.getAtkDownPoint() > 0) {
+            debuff.setRound(debuff.getRound() - 1);
+            System.out.println(name + "由于Debuff，攻击力降低" + debuff.getAtkDownPoint() + "点" +
+                    "，Debuff还剩" + debuff.getRound() + "回合");
+        }
     }
 }

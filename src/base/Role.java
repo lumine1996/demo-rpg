@@ -94,10 +94,9 @@ public class Role {
      */
     public void myTurn(Role target) {
         if (debuff.getRound() > 0) {
-            underAttack(debuff.getDamage());
-            debuff.setRound(debuff.getRound() - 1);
-            System.out.println(name + "由于Debuff，受到" + debuff.getDamage().getMagicDamage() + "点元素伤害" +
-                    "，Debuff还剩" + debuff.getRound() + "回合");
+            underDebuff();
+        } else {
+            debuff = new Debuff();
         }
 
         round ++;
@@ -109,6 +108,20 @@ public class Role {
 
         if (silentRound > 0) {
             silentRound --;
+        }
+    }
+
+    public void underDebuff() {
+        debuff.setRound(debuff.getRound() - 1);
+        underAttack(debuff.getDamage());
+        if (debuff.getDamage().getMagicDamage() > 0) {
+            System.out.println(name + "由于Debuff，受到" + debuff.getDamage().getMagicDamage() + "点元素伤害" +
+                    "，Debuff还剩" + debuff.getRound() + "回合");
+        }
+        if (debuff.getAtkDownPoint() > 0) {
+            debuff.setRound(debuff.getRound() - 1);
+            System.out.println(name + "由于Debuff，攻击力降低" + debuff.getAtkDownPoint() + "点" +
+                    "，Debuff还剩" + debuff.getRound() + "回合");
         }
     }
 
@@ -136,9 +149,9 @@ public class Role {
      * 普通攻击
      */
     public void normalAttack(Role target) {
-        Damage damage = new Damage(atk - target.getDef(), 0L);
-        target.underAttack(damage);
-        afterAttack(target, damage);
+        Damage damage = new Damage(atk - debuff.getAtkDownPoint() - target.getDef(), 0L);
+        Damage finalDamage = target.underAttack(damage);
+        afterAttack(target, finalDamage);
     }
 
     /**
@@ -153,23 +166,24 @@ public class Role {
      * 攻击后行为
      */
     public void afterAttack(Role target, Damage damage) {
-        System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicalDamage() + "点伤害");
+        System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
     }
 
     /**
      * 受到攻击
      */
-    public void underAttack(Damage damage) {
-        if (damage.getPhysicalDamage() > 0) {
-            hp -= damage.getPhysicalDamage();
+    public Damage underAttack(Damage damage) {
+        if (damage.getPhysicDamage() > 0) {
+            hp -= damage.getPhysicDamage();
         } else {
-            damage.setPhysicalDamage(0L);
+            damage.setPhysicDamage(0L);
         }
         if (damage.getMagicDamage() > 0) {
             hp -= damage.getMagicDamage();
         } else {
             damage.setMagicDamage(0L);
         }
+        return damage;
 
     }
 

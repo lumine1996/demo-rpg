@@ -20,8 +20,6 @@ public class Mei extends Role {
 
     private static final Long SKILL_DAMAGE = 15L;
 
-
-
     public Mei() {
         super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_RATE, SKILL_ROUND);
     }
@@ -29,8 +27,8 @@ public class Mei extends Role {
     @Override
     public void normalAttack(Role target) {
         Damage normalDamage = new Damage(ATK - target.getDef(), MGK);
-        target.underAttack(normalDamage);
-        afterAttack(target, normalDamage);
+        Damage finalDamage = target.underAttack(normalDamage);
+        afterAttack(target, finalDamage);
     }
 
     @Override
@@ -38,9 +36,9 @@ public class Mei extends Role {
         normalAttack(target);
 
         Damage extraDamage = new Damage(0L, SKILL_DAMAGE);
-        target.underAttack(extraDamage);
+        Damage finalDamage = target.underAttack(extraDamage);
         target.setSilentRound(1);
-        System.out.println(this.getName() + "发动必杀技，造成了" + extraDamage.getMagicDamage() + "点元素伤害，" +
+        System.out.println(this.getName() + "发动必杀技，造成了" + finalDamage.getMagicDamage() + "点元素伤害，" +
                 "并使" + target.getName() + "下回合无法使用技能");
     }
 
