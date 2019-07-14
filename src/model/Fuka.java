@@ -12,14 +12,16 @@ public class Fuka extends Role{
     public static final String NAME = "符华";
     private static final Long ATK = 27L;
     private static final Long DEF = 8L;
-    private static final Long HP = 100L;
+    private static final Long MAX_HP = 100L;
+    private static final double AVD = 0.0;
+    private static final double SKILL_RATE = 0.0;
     private static final int SKILL_ROUND = 3;
     private int lockRound = -1;
     private Boolean hasLocked = false;
     private Random rand = new Random();
 
     public Fuka() {
-        super(NAME, ATK, DEF, HP, 0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_RATE, SKILL_ROUND);
     }
 
 

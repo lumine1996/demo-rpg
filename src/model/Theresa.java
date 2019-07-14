@@ -12,14 +12,14 @@ public class Theresa extends Role {
     public static final String NAME = "德丽莎";
     private static final Long ATK = 24L;
     private static final Long DEF = 8L;
-    private static final Long HP = 100L;
+    private static final Long MAX_HP = 100L;
     private static final int SKILL_ROUND = 2;
     private static final int SKILL_TIMES = 4;
 
     private Random rand = new Random();
 
     public Theresa (){
-        super(NAME, ATK, DEF, HP, 0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, 0, 0.0, SKILL_ROUND);
     }
 
     @Override

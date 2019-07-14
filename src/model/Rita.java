@@ -16,7 +16,7 @@ public class Rita extends Role {
     private static final double CURE_RATE = 0.30;
 
     public Rita (){
-        super(NAME, ATK, DEF, HP, SKILL_PROBABILITY, 0);
+        super(NAME, ATK, DEF, HP, 0.0, SKILL_PROBABILITY, 0);
     }
 
     @Override
@@ -36,7 +36,7 @@ public class Rita extends Role {
     public void skillAttack(Role role) {
         //攻击并沉默一回合
         normalAttack(role);
-        role.setSilentRound(1);
+        role.setForbiddenRound(1);
         System.out.println(this.getName() + "发动必杀技，使" + role.getName() + "下回合无法攻击");
     }
 }

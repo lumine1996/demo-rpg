@@ -10,7 +10,7 @@ public class Sheele extends Role{
     public static final String NAME = "希儿";
     private static final Long ATK = 23L;
     private static final Long DEF = 10L;
-    private static final Long HP = 100L;
+    private static final Long MAX_HP = 100L;
     private static final int SKILL_ROUND = 4;
     private static final double SKILL_HIT = 0.25;
     private static final Long SKILL_ATTACK = 100L;
@@ -18,7 +18,7 @@ public class Sheele extends Role{
     private static final Long CURE_POINT = 7L;
 
     public Sheele (){
-        super(NAME, ATK, DEF, HP, 0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, 0, 0.0, SKILL_ROUND);
     }
 
     @Override

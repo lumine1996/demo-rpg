@@ -59,66 +59,79 @@ public class Role {
      * 剩余沉默回合
      */
     private int silentRound;
+    /**
+     * 剩余无法攻击回合
+     */
+    private int forbiddenRound;
+    /**
+     * 负面状态
+     */
+    private Debuff debuff;
 
-    public Role(String name, Long atk, Long mgk, Long def, Long rgs, Long hp, Long maxHp, double hit, double avd,
-                double skillProbability, int skillRound, Boolean skillFlag, int round, int silentRound) {
+    public Role(String name, Long atk, Long def, Long maxHp, double avd,
+                double skillProbability, int skillRound) {
         this.name = name;
         this.atk = atk;
-        this.mgk = mgk;
+        this.mgk = 0L;
         this.def = def;
-        this.rgs = rgs;
-        this.hp = hp;
+        this.rgs = 0L;
+        this.hp = maxHp;
         this.maxHp = maxHp;
-        this.hit = hit;
+        this.hit = 1.0;
         this.avd = avd;
         this.skillProbability = skillProbability;
         this.skillRound = skillRound;
 
-        this.skillFlag = skillFlag;
-        this.round = round;
-        this.silentRound = silentRound;
-    }
-
-    public Role(String name, Long atk, Long mgk, Long def, Long rgs, Long maxHp, double hit, double avd,
-                     double skillProbability, int skillRound) {
-        this(name, atk, mgk, def, rgs, maxHp, maxHp, hit, avd, skillProbability, skillRound, false, 0, 0);
-    }
-
-    public Role(String name, Long atk, Long def, Long maxHp, double hit, double avd,
-                double skillProbability, int skillRound) {
-        this(name, atk, atk, def, def, maxHp, hit, avd, skillProbability, skillRound);
+        this.skillFlag = false;
+        this.round = 0;
+        this.forbiddenRound = 0;
+        this.debuff = new Debuff();
     }
 
 
-    public Role(String name, Long atk, Long def, Long maxHp, double skillProbability, int skillRound){
-        this(name, atk, atk, def, def, maxHp, 1.0, 0, skillProbability, skillRound);
+    /**
+     * 攻击前行为
+     */
+    public void beforeAttack(Role target) {
+        if (debuff.getRound() > 0) {
+            underAttack(debuff.getDamage());
+            debuff.setRound(debuff.getRound() - 1);
+        }
+
+        round ++;
+        if (forbiddenRound > 0) {
+            forbiddenRound--;
+        } else {
+            attack(target);
+        }
+
+        if (silentRound > 0) {
+            silentRound --;
+        }
     }
 
     /**
      * 攻击
-     * @param role 被攻击的角色
      */
-    public void attack(Role role) {
+    public void attack(Role target) {
         //生成0~1之间的随机浮点数，小于技能概率时则触发技能
-        double random = Math.random();
-        if (random <= skillProbability ||
-                (silentRound == 0 && skillRound != 0 && this.round % skillRound == 0)) {
-            this.skillFlag = true;
-        }
+        Boolean roundFlag = skillRound != 0 && this.round % skillRound == 0;
+        Boolean probabilityFlag = skillProbability != 0.0 && Math.random() <= skillProbability;
+        skillFlag = silentRound == 0 && (roundFlag || probabilityFlag);
 
-        if (silentRound == 0) {
+        if (forbiddenRound == 0) {
             if (skillFlag) {
-                skillAttack(role);
-                this.skillFlag = false;
+                skillAttack(target);
+                skillFlag = false;
             } else {
-                normalAttack(role);
+                normalAttack(target);
             }
         }
+
     }
 
     /**
      * 普通攻击
-     * @param target 被攻击的角色
      */
     public void normalAttack(Role target) {
         Damage damage = new Damage(atk - target.getDef(), 0L);
@@ -128,23 +141,10 @@ public class Role {
 
     /**
      * 技能攻击
-     * @param target 被攻击的角色
      */
     public void skillAttack(Role target) {
         Damage damage = new Damage(0L, atk * 3L);
         target.underAttack(damage);
-    }
-
-    /**
-     * 攻击前行为
-     */
-    public void beforeAttack(Role role) {
-        this.round ++;
-        if (silentRound > 0) {
-            silentRound--;
-        } else {
-            attack(role);
-        }
     }
 
     /**
@@ -156,22 +156,24 @@ public class Role {
 
     /**
      * 受到攻击
-     * @param damage 伤害
      */
     public void underAttack(Damage damage) {
         if (damage.getPhysicalDamage() > 0) {
-            this.hp -= damage.getPhysicalDamage();
+            hp -= damage.getPhysicalDamage();
         } else {
             damage.setPhysicalDamage(0L);
         }
         if (damage.getMagicDamage() > 0) {
-            this.hp -= damage.getMagicDamage();
+            hp -= damage.getMagicDamage();
         } else {
             damage.setMagicDamage(0L);
         }
 
     }
 
+    /**
+     * 治疗
+     */
     public void cure(Long curePoint) {
         if (this.hp + curePoint > 100L) {
             curePoint = 100L - this.hp;
@@ -239,12 +241,12 @@ public class Role {
         this.skillFlag = skillFlag;
     }
 
-    public int getSilentRound() {
-        return silentRound;
+    public int getForbiddenRound() {
+        return forbiddenRound;
     }
 
-    public void setSilentRound(int silentRound) {
-        this.silentRound = silentRound;
+    public void setForbiddenRound(int forbiddenRound) {
+        this.forbiddenRound = forbiddenRound;
     }
 
     public int getRound() {

@@ -7,7 +7,7 @@ import base.Role;
  */
 public class Kiana extends Role {
     public Kiana () {
-        super("Kiana", 24L, 11L, 100L, 0.30, 0);
+        super("Kiana", 24L, 11L, 100L, 0.30, 0.0, 0);
     }
 
     @Override

@@ -10,7 +10,9 @@ public class Rozaliya extends Role {
     public static final String NAME = "萝莎莉娅";
     private static final Long ATK = 30L;
     private static final Long DEF = 4L;
-    private static final Long HP = 100L;
+    private static final Long MAX_HP = 100L;
+    private static final double AVD = 0.0;
+    private static final double SKILL_RATE = 0.0;
     private static final int SKILL_ROUND = 3;
     private static final Long SKILL_DAMAGE = 15L;
     private static final double CHANGE_RATE = 0.3;
@@ -18,7 +20,7 @@ public class Rozaliya extends Role {
     private double damageRate;
 
     public Rozaliya (){
-        super(NAME, ATK, DEF, HP, 0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_RATE, SKILL_ROUND);
     }
 
     @Override
@@ -50,7 +52,7 @@ public class Rozaliya extends Role {
         }
 
         //下回合无法攻击
-        this.setSilentRound(1);
+        this.setForbiddenRound(1);
         System.out.println(this.getName() + "发动必杀技，对" + target.getName() + "累计造成" + damageCount + "点伤害，" +
                 "但下回合无法攻击");
         Damage damage = new Damage(damageCount, 0L);

@@ -12,13 +12,12 @@ public class Bronya extends Role {
     private static final Long ATK = 26L;
     private static final Long DEF = 8L;
     private static final Long HP = 100L;
-    private static final double HIT = 1.0;
     private static final double AVD = 0.15;
     private static final int SKILL_ROUND = 3;
     private Random rand = new Random();
 
     public Bronya (){
-        super(NAME, ATK, DEF, HP, HIT, AVD, 0, SKILL_ROUND);
+        super(NAME, ATK, DEF, HP, AVD, 0.0, SKILL_ROUND);
     }
 
     @Override
