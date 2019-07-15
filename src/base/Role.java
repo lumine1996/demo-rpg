@@ -93,13 +93,13 @@ public class Role {
      * 我的回合
      */
     public void myTurn(Role target) {
+        round ++;
         if (debuff.getRound() > 0) {
             underDebuff();
         } else {
             debuff = new Debuff();
         }
 
-        round ++;
         if (forbiddenRound > 0) {
             forbiddenRound--;
         } else {
@@ -113,10 +113,9 @@ public class Role {
 
     public void underDebuff() {
         debuff.setRound(debuff.getRound() - 1);
-        underAttack(debuff.getDamage());
         if (debuff.getDamage().getMagicDamage() > 0) {
-            System.out.println(name + "由于Debuff，受到" + debuff.getDamage().getMagicDamage() + "点元素伤害" +
-                    "，Debuff还剩" + debuff.getRound() + "回合");
+            underAttack("Debuff" , debuff.getDamage());
+            System.out.println("Debuff还剩" + debuff.getRound() + "回合");
         }
         if (debuff.getAtkDownPoint() > 0) {
             debuff.setRound(debuff.getRound() - 1);
@@ -136,11 +135,23 @@ public class Role {
 
         if (forbiddenRound == 0) {
             if (skillFlag) {
-                skillAttack(target);
+                System.out.println(this.getName() + "发动了必杀技");
+                if (Math.random() <= target.getAvd()) {
+                    System.out.println(this.getName() + "攻击" + target.getName() +
+                            "，但对方闪避了攻击");
+                } else {
+                    skillAttack(target);
+                }
                 skillFlag = false;
             } else {
-                normalAttack(target);
+                if (Math.random() <= target.getAvd()) {
+                    System.out.println(this.getName() + "攻击" + target.getName() +
+                            "，但对方闪避了攻击");
+                } else {
+                    normalAttack(target);
+                }
             }
+
         }
 
     }
@@ -150,7 +161,7 @@ public class Role {
      */
     public void normalAttack(Role target) {
         Damage damage = new Damage(atk - debuff.getAtkDownPoint() - target.getDef(), 0L);
-        Damage finalDamage = target.underAttack(damage);
+        Damage finalDamage = target.underAttack(this.getName(), damage);
         afterAttack(target, finalDamage);
     }
 
@@ -159,32 +170,30 @@ public class Role {
      */
     public void skillAttack(Role target) {
         Damage damage = new Damage(0L, atk * 3L);
-        target.underAttack(damage);
+        target.underAttack(this.getName(), damage);
     }
 
     /**
      * 攻击后行为
      */
     public void afterAttack(Role target, Damage damage) {
-        if (damage.getMagicDamage() > 0) {
-            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
-        }
-        if (damage.getPhysicDamage() > 0) {
-            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
-        }
+
     }
 
     /**
      * 受到攻击
      */
-    public Damage underAttack(Damage damage) {
+    public Damage underAttack(String from, Damage damage) {
+
         if (damage.getPhysicDamage() > 0) {
             hp -= damage.getPhysicDamage();
+            System.out.println(from + "对" + this.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
         } else {
             damage.setPhysicDamage(0L);
         }
         if (damage.getMagicDamage() > 0) {
             hp -= damage.getMagicDamage();
+            System.out.println(from + "对" + this.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
         } else {
             damage.setMagicDamage(0L);
         }
@@ -292,5 +301,29 @@ public class Role {
 
     public void setDebuff(Debuff debuff) {
         this.debuff = debuff;
+    }
+
+    public Long getMaxHp() {
+        return maxHp;
+    }
+
+    public void setMaxHp(Long maxHp) {
+        this.maxHp = maxHp;
+    }
+
+    public double getHit() {
+        return hit;
+    }
+
+    public void setHit(double hit) {
+        this.hit = hit;
+    }
+
+    public double getAvd() {
+        return avd;
+    }
+
+    public void setAvd(double avd) {
+        this.avd = avd;
     }
 }

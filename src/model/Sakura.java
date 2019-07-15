@@ -38,7 +38,6 @@ public class Sakura extends Role {
     @Override
     public void skillAttack(Role target) {
         Damage damage = new Damage((ATK - target.getDef()) * 2, 0L);
-        Damage finalDamage = target.underAttack(damage);
-        System.out.println(this.getName() + "发动必杀技，造成了" + finalDamage.getPhysicDamage() + "点伤害");
+        target.underAttack(this.getName(), damage);
     }
 }

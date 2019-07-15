@@ -25,50 +25,20 @@ public class Theresa extends Role {
 
     @Override
     public void skillAttack(Role target) {
-        System.out.println(this.getName() + "发动必杀技");
         for (int i = 0; i < SKILL_TIMES; i++) {
             //造成无视防御的伤害，目标防御力不参与计算
             long magicDamage = rand.nextInt(16) + 1L;
             Damage damage = new Damage(0L, magicDamage);
-            Damage finalDamage = target.underAttack(damage);
+            Damage finalDamage = target.underAttack(this.getName(), damage);
             afterAttack(target, finalDamage);
         }
     }
 
     @Override
-    public Damage underAttack(Damage damage) {
-        damage.setMagicDamage((damage.getMagicDamage() + 1) / 2);
-        if (damage.getPhysicDamage() > 0) {
-            this.setHp(this.getHp() - damage.getPhysicDamage());
-        } else {
-            damage.setPhysicDamage(0L);
-        }
-        if (damage.getMagicDamage() > 0) {
-            this.setHp(this.getHp() - damage.getMagicDamage());
-        } else {
-            damage.setMagicDamage(0L);
-        }
-        return damage;
-    }
-
-    @Override
-    public void underDebuff() {
-        Debuff debuff = this.getDebuff();
-        debuff.setRound(debuff.getRound() - 1);
-        String name = NAME;
-        Damage debuffDamage = new Damage();
-        debuffDamage.setMagicDamage(debuff.getDamage().getMagicDamage());
-        debuffDamage.setPhysicDamage(debuff.getDamage().getPhysicDamage());
-        // System.out.println(debuffDamage + ", " +debuff.getDamage());
-        underAttack(debuffDamage);
-        if (debuff.getDamage().getMagicDamage() > 0) {
-            System.out.println(name + "由于Debuff，受到" + (debuff.getDamage().getMagicDamage()+ 1) / 2 + "点元素伤害" +
-                    "，Debuff还剩" + debuff.getRound() + "回合");
-        }
-        if (debuff.getAtkDownPoint() > 0) {
-            debuff.setRound(debuff.getRound() - 1);
-            System.out.println(name + "由于Debuff，攻击力降低" + debuff.getAtkDownPoint() + "点" +
-                    "，Debuff还剩" + debuff.getRound() + "回合");
-        }
+    public Damage underAttack(String from, Damage damage) {
+        Damage finalDamage = new Damage();
+        finalDamage.setPhysicDamage(damage.getPhysicDamage());
+        finalDamage.setMagicDamage((damage.getMagicDamage() + 1) / 2);
+        return super.underAttack(from, finalDamage);
     }
 }

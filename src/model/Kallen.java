@@ -25,9 +25,9 @@ public class Kallen extends Role {
     @Override
     public void normalAttack(Role target) {
         Damage normalDamage = new Damage(ATK - target.getDef(), 0L);
-        Damage finalDamage = target.underAttack(normalDamage);
+        Damage finalDamage = target.underAttack(NAME, normalDamage);
         afterAttack(target, finalDamage);
-        if (Math.random() <= KILL_RATE) {
+        if (Math.random() <= KILL_RATE && Math.random() >= target.getAvd()) {
             target.setHp(0L);
             System.out.println(this.getName() + "不小心把" + target.getName() + "打成了废人");
         }

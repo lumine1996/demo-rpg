@@ -29,12 +29,10 @@ public class Sheele extends Role{
 
     @Override
     public void skillAttack(Role target) {
-        System.out.print(this.getName() + "使用了必杀技，");
         Damage damage = new Damage(0L, 0L);
         if (Math.random() <= SKILL_HIT) {
             damage.setPhysicDamage(SKILL_ATTACK - target.getDef());
-            Damage finalDamage = target.underAttack(damage);
-            System.out.println("对" + target.getName() + "造成了" + finalDamage.getPhysicDamage() + "点伤害");
+            target.underAttack(this.getName(), damage);
         } else {
             System.out.println("可惜没命中");
         }

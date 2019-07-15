@@ -30,26 +30,28 @@ public class Fuka extends Role{
         //造成无视防御的伤害，目标防御力不参与计算
         long magicDamage = rand.nextInt(21) + 10L;
         Damage damage = new Damage(0L, magicDamage);
-        Damage finalDamage = target.underAttack(damage);
-        System.out.println(this.getName() + "发动技能，对" + target.getName() + "造成了" + finalDamage.getMagicDamage() + "点元素伤害");
+        target.underAttack(this.getName(), damage);
     }
 
     @Override
-    public Damage underAttack(Damage damage) {
+    public Damage underAttack(String from, Damage damage) {
+        // 已经锁血，终生免疫元素伤害
         if (hasLocked) {
             damage.setMagicDamage(0L);
         }
 
-        damage = super.underAttack(damage);
+        damage = super.underAttack(from, damage);
+        // 锁血触发机制
         if (this.getHp() <= 0 && !hasLocked) {
             lockRound = this.getRound();
             hasLocked = true;
             System.out.println("符华锁血1点，并免疫元素伤害");
         }
 
+        // 锁血回合免疫所有伤害
         if (lockRound == this.getRound()) {
-            damage.setMagicDamage(0L);
             this.setHp(1L);
+            return new Damage();
         }
         return damage;
     }

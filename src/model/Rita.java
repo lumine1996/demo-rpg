@@ -27,19 +27,16 @@ public class Rita extends Role {
             if (this.getHp() >= HP) {
                 this.setHp(100L);
             }
-            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害" +
-                    "，并恢复了" + damage.getPhysicDamage() + "点生命");
-        } else {
-            System.out.println(this.getName() + "对" + target.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
+            System.out.println(this.getName() + "恢复了" + damage.getPhysicDamage() + "点生命");
         }
 
     }
 
     @Override
-    public void skillAttack(Role role) {
+    public void skillAttack(Role target) {
         //攻击并封锁对手攻击一回合
-        normalAttack(role);
-        role.setForbiddenRound(1);
-        System.out.println(this.getName() + "发动必杀技，使" + role.getName() + "下回合无法攻击");
+        normalAttack(target);
+        target.setForbiddenRound(1);
+        System.out.println(NAME + "使" + target.getName() + "下回合无法攻击");
     }
 }

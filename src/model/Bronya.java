@@ -25,7 +25,6 @@ public class Bronya extends Role {
         //造成1~100点伤害
         long hurt = rand.nextInt(100) + 1L;
         Damage damage = new Damage(hurt, 0L);
-        Damage finalDamage = target.underAttack(damage);
-        System.out.println(this.getName() + "发动必杀技，对" + target.getName() + "造成" + finalDamage.getPhysicDamage() + "点伤害");
+        target.underAttack(this.getName(), damage);
     }
 }

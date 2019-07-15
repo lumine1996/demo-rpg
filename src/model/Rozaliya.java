@@ -49,20 +49,19 @@ public class Rozaliya extends Role {
         for (int i = 0; i < 10; i++) {
             Long physicDamage = Math.round(SKILL_DAMAGE * damageRate) - target.getDef();
             Damage damage = new Damage(physicDamage, 0L);
-            Damage finalDamage = target.underAttack(damage);
+            Damage finalDamage = target.underAttack(this.getName(), damage);
             damageCount += finalDamage.getPhysicDamage();
         }
 
         //下回合无法攻击
         this.setForbiddenRound(1);
-        System.out.println(this.getName() + "发动必杀技，对" + target.getName() + "累计造成" + damageCount + "点伤害，" +
-                "但下回合无法攻击");
+        System.out.println(NAME + "累计造成" + damageCount + "点伤害，但下回合无法攻击");
     }
 
     @Override
     public void normalAttack(Role target) {
         Damage damage = new Damage(Math.round(this.getAtk() * this.damageRate) - target.getDef(), 0L);
-        Damage finalDamage = target.underAttack(damage);
+        Damage finalDamage = target.underAttack(this.getName(), damage);
         afterAttack(target, finalDamage);
     }
 
