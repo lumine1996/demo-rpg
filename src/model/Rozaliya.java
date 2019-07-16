@@ -60,7 +60,7 @@ public class Rozaliya extends Role {
 
     @Override
     public void normalAttack(Role target) {
-        Damage damage = new Damage(Math.round(this.getAtk() * this.damageRate) - target.getDef(), 0L);
+        Damage damage = new Damage(Math.round((getAtk() - getDebuff().getAtkDownPoint()) * damageRate) - target.getDef(), 0L);
         Damage finalDamage = target.underAttack(this.getName(), damage);
         afterAttack(target, finalDamage);
     }

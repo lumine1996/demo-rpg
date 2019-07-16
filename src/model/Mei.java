@@ -26,7 +26,7 @@ public class Mei extends Role {
 
     @Override
     public void normalAttack(Role target) {
-        Damage normalDamage = new Damage(ATK - target.getDef(), MGK);
+        Damage normalDamage = new Damage(ATK - this.getDebuff().getAtkDownPoint() - target.getDef(), MGK);
         Damage finalDamage = target.underAttack(NAME, normalDamage);
         afterAttack(target, finalDamage);
     }
