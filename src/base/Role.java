@@ -42,7 +42,7 @@ public class Role {
     /**
      * 技能触发概率
      */
-    private double skillProbability;
+    private double skillRate;
     /**
      * 技能触发标志
      */
@@ -69,7 +69,7 @@ public class Role {
     private Debuff debuff;
 
     public Role(String name, Long atk, Long def, Long maxHp, double avd,
-                double skillProbability, int skillRound) {
+                double skillRate, int skillRound) {
         this.name = name;
         this.atk = atk;
         this.mgk = 0L;
@@ -79,7 +79,7 @@ public class Role {
         this.maxHp = maxHp;
         this.hit = 1.0;
         this.avd = avd;
-        this.skillProbability = skillProbability;
+        this.skillRate = skillRate;
         this.skillRound = skillRound;
 
         this.skillFlag = false;
@@ -130,7 +130,8 @@ public class Role {
     public void attack(Role target) {
         //生成0~1之间的随机浮点数，小于技能概率时则触发技能
         Boolean roundFlag = skillRound != 0 && this.round % skillRound == 0;
-        Boolean probabilityFlag = skillProbability != 0.0 && Math.random() <= skillProbability;
+        Boolean probabilityFlag = skillRate != 0.0 && Math.random() <= skillRate;
+        // 是否发动必杀技（一般为第二技能）
         skillFlag = silentRound == 0 && (roundFlag || probabilityFlag);
 
         if (forbiddenRound == 0) {
@@ -151,9 +152,7 @@ public class Role {
                     normalAttack(target);
                 }
             }
-
         }
-
     }
 
     /**

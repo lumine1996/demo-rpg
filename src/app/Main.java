@@ -18,8 +18,8 @@ public class Main {
         String latterName = "";
         for (int i = 0; i < times; i++) {
 
-            Role former = new Fuka();
-            Role latter = new Theresa();
+            Role former = new Sheele2020();
+            Role latter = new Bronya2020();
             if (i == 0) {
                 formerName = former.getName();
                 latterName = latter.getName();
