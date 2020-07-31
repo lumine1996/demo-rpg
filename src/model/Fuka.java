@@ -8,7 +8,7 @@ import java.util.Random;
 /**
  * @author 675056544@qq.com 2019-07-13 22:35:29
  */
-public class Fuka extends Role{
+public class Fuka extends Role {
     public static final String NAME = "符华";
     private static final Long ATK = 27L;
     private static final Long DEF = 8L;

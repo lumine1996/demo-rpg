@@ -1,7 +1,6 @@
 package model;
 
 import base.Damage;
-import base.Debuff;
 import base.Role;
 
 import java.util.Random;

@@ -3,8 +3,6 @@ package model;
 import base.Damage;
 import base.Role;
 
-import java.util.Random;
-
 /**
  * @author guangming.chen@hand-china.com 2019-07-14 13:51:31
  */

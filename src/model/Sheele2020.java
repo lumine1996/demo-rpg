@@ -1,6 +1,5 @@
 package model;
 
-import base.Damage;
 import base.Role;
 
 import java.util.Random;
@@ -8,7 +7,7 @@ import java.util.Random;
 /**
  * @author 675056544@qq.com 2020-07-30
  */
-public class Sheele2020 extends Role{
+public class Sheele2020 extends Role {
     public static final String NAME = "希儿";
     private static final Long ATK = 23L;
     private static final Long DEF = 13L;

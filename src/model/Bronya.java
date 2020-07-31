@@ -2,6 +2,7 @@ package model;
 
 import base.Damage;
 import base.Role;
+
 import java.util.Random;
 
 /**

@@ -325,4 +325,12 @@ public class Role {
     public void setAvd(double avd) {
         this.avd = avd;
     }
+
+    public double getSkillRate() {
+        return skillRate;
+    }
+
+    public void setSkillRate(double skillRate) {
+        this.skillRate = skillRate;
+    }
 }

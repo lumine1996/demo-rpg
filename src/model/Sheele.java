@@ -6,7 +6,7 @@ import base.Role;
 /**
  * @author 675056544@qq.com 2019-07-12 23:27:38
  */
-public class Sheele extends Role{
+public class Sheele extends Role {
     public static final String NAME = "希儿";
     private static final Long ATK = 23L;
     private static final Long DEF = 10L;

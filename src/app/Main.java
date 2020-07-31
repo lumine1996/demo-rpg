@@ -1,7 +1,8 @@
 package app;
 
 import base.Role;
-import model.*;
+import model.Durandal2020;
+import model.Rozaliya2020;
 
 
 /**
@@ -18,8 +19,8 @@ public class Main {
         String latterName = "";
         for (int i = 0; i < times; i++) {
 
-            Role former = new Sheele2020();
-            Role latter = new Bronya2020();
+            Role former = new Durandal2020();
+            Role latter = new Rozaliya2020();
             if (i == 0) {
                 formerName = former.getName();
                 latterName = latter.getName();
