@@ -42,7 +42,7 @@ public class Role {
     /**
      * 技能触发概率
      */
-    private double skillRate;
+    private double skillChance;
     /**
      * 技能触发标志
      */
@@ -69,7 +69,7 @@ public class Role {
     private Debuff debuff;
 
     public Role(String name, Long atk, Long def, Long maxHp, double avd,
-                double skillRate, int skillRound) {
+                double skillChance, int skillRound) {
         this.name = name;
         this.atk = atk;
         this.mgk = 0L;
@@ -79,7 +79,7 @@ public class Role {
         this.maxHp = maxHp;
         this.hit = 1.0;
         this.avd = avd;
-        this.skillRate = skillRate;
+        this.skillChance = skillChance;
         this.skillRound = skillRound;
 
         this.skillFlag = false;
@@ -114,7 +114,7 @@ public class Role {
     public void underDebuff() {
         debuff.setRound(debuff.getRound() - 1);
         if (debuff.getDamage().getMagicDamage() > 0) {
-            underAttack("Debuff" , debuff.getDamage());
+            underAttack(null , debuff.getDamage());
             System.out.println("Debuff还剩" + debuff.getRound() + "回合");
         }
         if (debuff.getAtkDownPoint() > 0) {
@@ -129,13 +129,15 @@ public class Role {
      */
     public void attack(Role target) {
         //生成0~1之间的随机浮点数，小于技能概率时则触发技能
+        float zeroCheck = 1e-6f;
         Boolean roundFlag = skillRound != 0 && this.round % skillRound == 0;
-        Boolean probabilityFlag = skillRate != 0.0 && Math.random() <= skillRate;
+        Boolean chanceFlag = skillChance > zeroCheck && Math.random() <= skillChance;
         // 是否发动必杀技（一般为第二技能）
-        skillFlag = silentRound == 0 && (roundFlag || probabilityFlag);
+        setSkillFlag(silentRound == 0 && (roundFlag || chanceFlag));
 
         if (forbiddenRound == 0) {
-            if (skillFlag) {
+            if (silentRound == 0 && (roundFlag || chanceFlag)) {
+                skillFlag = true;
                 System.out.println(this.getName() + "发动了必杀技");
                 if (Math.random() <= target.getAvd()) {
                     System.out.println(this.getName() + "攻击" + target.getName() +
@@ -160,7 +162,7 @@ public class Role {
      */
     public void normalAttack(Role target) {
         Damage damage = new Damage(atk - debuff.getAtkDownPoint() - target.getDef(), 0L);
-        Damage finalDamage = target.underAttack(this.getName(), damage);
+        Damage finalDamage = target.underAttack(this, damage);
         afterAttack(target, finalDamage);
     }
 
@@ -169,30 +171,34 @@ public class Role {
      */
     public void skillAttack(Role target) {
         Damage damage = new Damage(0L, atk * 3L);
-        target.underAttack(this.getName(), damage);
+        target.underAttack(this, damage);
     }
 
     /**
      * 攻击后行为
      */
     public void afterAttack(Role target, Damage damage) {
-
+        // 默认攻击后无动作
     }
 
     /**
      * 受到攻击
      */
-    public Damage underAttack(String from, Damage damage) {
+    public Damage underAttack(Role from, Damage damage) {
+        String fromName = "间接攻击";
+        if (from != null) {
+            fromName = from.getName();
+        }
 
         if (damage.getPhysicDamage() > 0) {
             hp -= damage.getPhysicDamage();
-            System.out.println(from + "对" + this.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
+            System.out.println(fromName + "对" + this.getName() + "造成了" + damage.getPhysicDamage() + "点伤害");
         } else {
             damage.setPhysicDamage(0L);
         }
         if (damage.getMagicDamage() > 0) {
             hp -= damage.getMagicDamage();
-            System.out.println(from + "对" + this.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
+            System.out.println(fromName + "对" + this.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
         } else {
             damage.setMagicDamage(0L);
         }
@@ -326,11 +332,19 @@ public class Role {
         this.avd = avd;
     }
 
-    public double getSkillRate() {
-        return skillRate;
+    public double getSkillChance() {
+        return skillChance;
     }
 
-    public void setSkillRate(double skillRate) {
-        this.skillRate = skillRate;
+    public void setSkillChance(double skillChance) {
+        this.skillChance = skillChance;
+    }
+
+    public int getSkillRound() {
+        return skillRound;
+    }
+
+    public void setSkillRound(int skillRound) {
+        this.skillRound = skillRound;
     }
 }

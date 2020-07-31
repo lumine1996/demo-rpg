@@ -14,11 +14,12 @@ public class Bronya extends Role {
     private static final Long DEF = 8L;
     private static final Long HP = 100L;
     private static final double AVD = 0.15;
+    private static final double SKILL_CHANCE = 0;
     private static final int SKILL_ROUND = 3;
     private Random rand = new Random();
 
     public Bronya (){
-        super(NAME, ATK, DEF, HP, AVD, 0.0, SKILL_ROUND);
+        super(NAME, ATK, DEF, HP, AVD, SKILL_CHANCE, SKILL_ROUND);
     }
 
     @Override
@@ -26,6 +27,6 @@ public class Bronya extends Role {
         //造成1~100点伤害
         long hurt = rand.nextInt(100) + 1L;
         Damage damage = new Damage(hurt, 0L);
-        target.underAttack(this.getName(), damage);
+        target.underAttack(this, damage);
     }
 }

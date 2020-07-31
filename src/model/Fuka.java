@@ -13,15 +13,16 @@ public class Fuka extends Role {
     private static final Long ATK = 27L;
     private static final Long DEF = 8L;
     private static final Long MAX_HP = 100L;
-    private static final double AVD = 0.0;
-    private static final double SKILL_RATE = 0.0;
+    private static final double AVD = 0;
+    private static final double SKILL_CHANCE = 0;
     private static final int SKILL_ROUND = 3;
+
     private int lockRound = -1;
     private Boolean hasLocked = false;
-    private Random rand = new Random();
+    private final Random rand = new Random();
 
     public Fuka() {
-        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_RATE, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_CHANCE, SKILL_ROUND);
     }
 
 
@@ -30,11 +31,11 @@ public class Fuka extends Role {
         //造成无视防御的伤害，目标防御力不参与计算
         long magicDamage = rand.nextInt(21) + 10L;
         Damage damage = new Damage(0L, magicDamage);
-        target.underAttack(this.getName(), damage);
+        target.underAttack(this, damage);
     }
 
     @Override
-    public Damage underAttack(String from, Damage damage) {
+    public Damage underAttack(Role from, Damage damage) {
         // 已经锁血，终生免疫元素伤害
         if (hasLocked) {
             damage.setMagicDamage(0L);

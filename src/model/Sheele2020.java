@@ -21,7 +21,7 @@ public class Sheele2020 extends Role {
     private final Random rand = new Random();
 
     public Sheele2020 (){
-        super(NAME, ATK, DEF, MAX_HP, 0, 0.0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, 0, 0, SKILL_ROUND);
     }
 
     /**

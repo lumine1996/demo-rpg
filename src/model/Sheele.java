@@ -18,7 +18,7 @@ public class Sheele extends Role {
     private static final Long CURE_POINT = 7L;
 
     public Sheele (){
-        super(NAME, ATK, DEF, MAX_HP, 0, 0.0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, 0, 0, SKILL_ROUND);
     }
 
     @Override
@@ -32,7 +32,7 @@ public class Sheele extends Role {
         Damage damage = new Damage(0L, 0L);
         if (Math.random() <= SKILL_HIT) {
             damage.setPhysicDamage(SKILL_ATTACK - target.getDef());
-            target.underAttack(this.getName(), damage);
+            target.underAttack(this, damage);
         } else {
             System.out.println("可惜没命中");
         }

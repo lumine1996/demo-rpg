@@ -11,12 +11,14 @@ public class Rita extends Role {
     private static final Long ATK = 26L;
     private static final Long DEF = 8L;
     private static final Long HP = 100L;
-    private static final double SKILL_PROBABILITY = 0.20;
+    private static final double AVD = 0;
+    private static final double SKILL_CHANCE = 0.20;
+    private static final int SKILL_ROUND = 0;
 
     private static final double CURE_RATE = 0.30;
 
     public Rita (){
-        super(NAME, ATK, DEF, HP, 0.0, SKILL_PROBABILITY, 0);
+        super(NAME, ATK, DEF, HP, AVD, SKILL_CHANCE, SKILL_ROUND);
     }
 
     @Override

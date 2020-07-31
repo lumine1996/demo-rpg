@@ -19,7 +19,7 @@ public class Theresa extends Role {
     private Random rand = new Random();
 
     public Theresa (){
-        super(NAME, ATK, DEF, MAX_HP, 0, 0.0, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, 0, 0, SKILL_ROUND);
     }
 
     @Override
@@ -28,13 +28,13 @@ public class Theresa extends Role {
             //造成无视防御的伤害，目标防御力不参与计算
             long magicDamage = rand.nextInt(16) + 1L;
             Damage damage = new Damage(0L, magicDamage);
-            Damage finalDamage = target.underAttack(this.getName(), damage);
+            Damage finalDamage = target.underAttack(this, damage);
             afterAttack(target, finalDamage);
         }
     }
 
     @Override
-    public Damage underAttack(String from, Damage damage) {
+    public Damage underAttack(Role from, Damage damage) {
         Damage finalDamage = new Damage();
         finalDamage.setPhysicDamage(damage.getPhysicDamage());
         finalDamage.setMagicDamage((damage.getMagicDamage() + 1) / 2);

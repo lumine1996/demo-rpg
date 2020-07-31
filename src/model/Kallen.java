@@ -12,20 +12,21 @@ public class Kallen extends Role {
     private static final Long ATK = 26L;
     private static final Long DEF = 6L;
     private static final Long MAX_HP = 100L;
-    private static final double AVD = 0.0;
-    private static final double SKILL_RATE = 0.3;
+    private static final double AVD = 0;
+    private static final double SKILL_CHANCE = 0.3;
     private static final int SKILL_ROUND = 0;
 
-    private static final double KILL_RATE = 0.05;
+    // 必杀概率
+    private static final double KILL_RATE = 05;
 
     public Kallen() {
-        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_RATE, SKILL_ROUND);
+        super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_CHANCE, SKILL_ROUND);
     }
 
     @Override
     public void normalAttack(Role target) {
         Damage normalDamage = new Damage(ATK - target.getDef(), 0L);
-        Damage finalDamage = target.underAttack(NAME, normalDamage);
+        Damage finalDamage = target.underAttack(this, normalDamage);
         afterAttack(target, finalDamage);
         if (Math.random() <= KILL_RATE && Math.random() >= target.getAvd()) {
             target.setHp(0L);
