@@ -48,7 +48,7 @@ public class Bronya2020 extends Role {
     @Override
     public void skillAttack(Role target) {
         //造成1~100点元素伤害
-        long hurt = rand.nextInt(100) + 1L;
+        Long hurt = rand.nextInt(100) + 1L;
         Damage damage = new Damage(0L, hurt);
         target.underAttack(this, damage);
     }

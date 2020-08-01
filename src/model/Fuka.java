@@ -29,7 +29,7 @@ public class Fuka extends Role {
     @Override
     public void skillAttack(Role target) {
         //造成无视防御的伤害，目标防御力不参与计算
-        long magicDamage = rand.nextInt(21) + 10L;
+        Long magicDamage = rand.nextInt(21) + 10L;
         Damage damage = new Damage(0L, magicDamage);
         target.underAttack(this, damage);
     }

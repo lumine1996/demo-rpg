@@ -17,7 +17,7 @@ public class Kallen extends Role {
     private static final int SKILL_ROUND = 0;
 
     // 必杀概率
-    private static final double KILL_RATE = 05;
+    private static final double KILL_RATE = 0.05;
 
     public Kallen() {
         super(NAME, ATK, DEF, MAX_HP, AVD, SKILL_CHANCE, SKILL_ROUND);

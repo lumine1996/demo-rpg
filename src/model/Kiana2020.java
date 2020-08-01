@@ -32,6 +32,7 @@ public class Kiana2020  extends Role {
         // 35%概率下回合无法攻击
         if (Math.random() <= SILENT_CHANCE) {
             setForbiddenRound(1);
+            System.out.println("琪亚娜眩晕一回合");
         }
     }
 }

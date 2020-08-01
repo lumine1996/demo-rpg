@@ -51,6 +51,10 @@ public class Role {
      * 技能触发回合
      */
     private int skillRound;
+
+    private int speed;
+
+    private boolean isSolo;
     /**
      * 当前回合
      */
@@ -81,11 +85,39 @@ public class Role {
         this.avd = avd;
         this.skillChance = skillChance;
         this.skillRound = skillRound;
+        this.speed = 1;
+        this.isSolo = true;
 
         this.skillFlag = false;
         this.round = 0;
         this.forbiddenRound = 0;
         this.debuff = new Debuff();
+    }
+
+    public Role(String name, Long atk, Long def, Long maxHp, double avd,
+                double skillChance, int skillRound, int speed, boolean isSolo) {
+        this.name = name;
+        this.atk = atk;
+        this.mgk = 0L;
+        this.def = def;
+        this.rgs = 0L;
+        this.hp = maxHp;
+        this.maxHp = maxHp;
+        this.hit = 1.0;
+        this.avd = avd;
+        this.skillChance = skillChance;
+        this.skillRound = skillRound;
+        this.speed = speed;
+        this.isSolo = isSolo;
+
+        this.skillFlag = false;
+        this.round = 0;
+        this.forbiddenRound = 0;
+        this.debuff = new Debuff();
+    }
+
+    public void startBattle(Role target) {
+        // 默认无动作
     }
 
 
@@ -139,17 +171,15 @@ public class Role {
             if (silentRound == 0 && (roundFlag || chanceFlag)) {
                 skillFlag = true;
                 System.out.println(this.getName() + "发动了必杀技");
-                if (Math.random() <= target.getAvd()) {
-                    System.out.println(this.getName() + "攻击" + target.getName() +
-                            "，但对方闪避了攻击");
+                if (Math.random() > hit || Math.random() <= target.getAvd()) {
+                    System.out.println(this.getName() + "没命中" + target.getName());
                 } else {
                     skillAttack(target);
                 }
                 skillFlag = false;
             } else {
-                if (Math.random() <= target.getAvd()) {
-                    System.out.println(this.getName() + "攻击" + target.getName() +
-                            "，但对方闪避了攻击");
+                if (Math.random() > hit || Math.random() <= target.getAvd()) {
+                    System.out.println(this.getName() + "没命中" + target.getName());
                 } else {
                     normalAttack(target);
                 }
@@ -201,6 +231,9 @@ public class Role {
             System.out.println(fromName + "对" + this.getName() + "造成了" + damage.getMagicDamage() + "点元素伤害");
         } else {
             damage.setMagicDamage(0L);
+        }
+        if (damage.getPhysicDamage() == 0L && damage.getMagicDamage() == 0L) {
+            System.out.println(fromName + "对" + this.getName() + "造成了0点伤害");
         }
         return damage;
 

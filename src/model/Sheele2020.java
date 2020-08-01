@@ -43,7 +43,7 @@ public class Sheele2020 extends Role {
     @Override
     public void skillAttack(Role target) {
         // System.out.println("好，好的");
-        long curePoint = rand.nextInt(15) + 1L;
+        Long curePoint = rand.nextInt(15) + 1L;
         cure(curePoint);
 
         setAtk(getAtk() - 10L);

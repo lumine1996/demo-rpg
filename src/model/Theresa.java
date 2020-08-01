@@ -26,7 +26,7 @@ public class Theresa extends Role {
     public void skillAttack(Role target) {
         for (int i = 0; i < SKILL_TIMES; i++) {
             //造成无视防御的伤害，目标防御力不参与计算
-            long magicDamage = rand.nextInt(16) + 1L;
+            Long magicDamage = rand.nextInt(16) + 1L;
             Damage damage = new Damage(0L, magicDamage);
             Damage finalDamage = target.underAttack(this, damage);
             afterAttack(target, finalDamage);
