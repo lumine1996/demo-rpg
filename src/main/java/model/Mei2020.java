@@ -28,21 +28,21 @@ public class Mei2020 extends Role {
     public void normalAttack(Role target) {
         if (Math.random() <= 0.3) {
             target.setForbiddenRound(1);
-            log.info(NAME + "使" + target.getName() + "麻痹一回合");
+            log.info("{}使{}麻痹一回合", NAME, target.getName());
         }
         super.normalAttack(target);
     }
 
     @Override
     public void skillAttack(Role target) {
-        log.info(NAME + "发动了龙女仆");
+        log.info("{}发动了龙女仆", NAME);
         int damageCount = 0;
         for (int i = 0; i < 5; i++) {
             Damage kickDamage = new Damage(0L, SKILL_DAMAGE);
             Damage realDamage = target.underAttack(this, kickDamage);
             damageCount += realDamage.getMagicDamage();
         }
-        log.info("龙女仆造成" + damageCount + "点伤害");
+        log.info("龙女仆造成{}点伤害", damageCount);
     }
 
 }

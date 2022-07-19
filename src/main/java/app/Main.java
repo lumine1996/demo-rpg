@@ -15,14 +15,14 @@ public class Main {
         //前者胜利次数
         int formerWin = 0;
         //模拟次数
-        int times = 100000;
+        int times = 10000;
         String formerName = "";
         String latterName = "";
         for (int i = 0; i < times; i++) {
             // 先手
-            Role former = new Aponia();
+            Role former = new Elysia();
             // 后手
-            Role latter = new Pardofelis();
+            Role latter = new Fuka2022();
             if (i == 0) {
                 formerName = former.getName();
                 latterName = latter.getName();
