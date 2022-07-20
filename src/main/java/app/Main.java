@@ -15,14 +15,14 @@ public class Main {
         //前者胜利次数
         int formerWin = 0;
         //模拟次数
-        int times = 10000;
+        int times = 100000;
         String formerName = "";
         String latterName = "";
         for (int i = 0; i < times; i++) {
             // 先手
-            Role former = new Elysia();
+            Role former = new Sakura2022();
             // 后手
-            Role latter = new Fuka2022();
+            Role latter = new Eden();
             if (i == 0) {
                 formerName = former.getName();
                 latterName = latter.getName();
@@ -37,18 +37,16 @@ public class Main {
 
     private static int vs(Role former, Role latter) {
         int currentRole = 1;
-        int currentRound = 1;
         former.startBattle(latter);
         latter.startBattle(former);
         while (former.getHp() > 0 && latter.getHp() > 0) {
             if (currentRole == 1) {
-                log.info("【第" + currentRound + "回合】");
+                log.info("【第" + (former.getRound() + 1) + "回合】");
                 former.myTurn(latter);
                 currentRole = 2;
             } else {
                 latter.myTurn(former);
                 currentRole = 1;
-                currentRound++;
             }
         }
         if (former.getHp() > 0) {
